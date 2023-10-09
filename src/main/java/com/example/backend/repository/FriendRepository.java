@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface FriendRepository extends JpaRepository<Friend, Long>{
     boolean existsByUserThatSentRequest_IdAndUserThatReceivedRequest_Id(Long id, Long id1);
 
+
 }
