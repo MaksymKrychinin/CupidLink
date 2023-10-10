@@ -3,17 +3,14 @@ package com.example.backend;
 import com.example.backend.entity.User;
 import com.example.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RequiredArgsConstructor
-public class UserServiceTest {
+public class UserServiceTests {
     final UserService userService;
 
     @Test
