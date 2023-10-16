@@ -1,37 +1,31 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
-@Setter
-@Getter
+@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "username", nullable = false, unique = true, length = 32)
-    @NotNull
-    private String username;
-
-    @Column(name = "password", nullable = false, length = 64)
-    @NotNull
-    private String password;
-
-    @Column(name = "email", nullable = false, unique = true, length = 64)
-    @NotNull
-    private String email;
-
-    @Column(name = "first_name", nullable = false, length = 32)
-    @NotNull
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 32)
-    @NotNull
-    private String lastName;
+    @OneToOne
+    private OpenInfo openInfo;
+    @OneToOne
+    private SecretInfo secretInfo;
+    @ManyToMany
+    @JoinTable(
+            name = "key_words",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    private List<KeyWord> courses;
 }
