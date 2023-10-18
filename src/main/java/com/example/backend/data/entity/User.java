@@ -1,6 +1,7 @@
-package com.example.backend.entity;
+package com.example.backend.data.entity;
 
 import jakarta.persistence.*;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "users")
 @Builder
 @Data
 @AllArgsConstructor
@@ -27,5 +28,12 @@ public class User {
             joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id")
     )
-    private List<KeyWord> courses;
+    private Set<KeyWord> keyWords;
+    @ManyToMany
+    private Set<User> friends;
+    @OneToMany(mappedBy = "sender")
+    private Set<Invitation> sentInvitations;
+
+    @OneToMany(mappedBy = "receiver")
+    private Set<Invitation> receivedInvitations;
 }

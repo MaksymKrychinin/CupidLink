@@ -1,4 +1,4 @@
-package com.example.backend.entity;
+package com.example.backend.data.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,4 +18,8 @@ public class OpenInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    private String firstName;
+    private String lastName;
+    private String location;
+    private String description;
 }
