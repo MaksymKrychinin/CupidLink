@@ -9,3 +9,4 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
+page-size-for-invitations: 10

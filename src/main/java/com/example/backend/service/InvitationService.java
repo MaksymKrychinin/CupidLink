@@ -6,6 +6,7 @@ import com.example.backend.data.entity.User;
 import com.example.backend.data.mapper.InvitationMapper;
 import com.example.backend.repository.InvitationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class InvitationService {
 
-    protected static final int PAGE_SIZE_FOR_INVITATIONS = 10;
+    @Value("${page-size-for-invitations}")
+    protected static int PAGE_SIZE_FOR_INVITATIONS;
 
     private final InvitationMapper invitationMapper;
     private final InvitationRepository invitationRepository;
@@ -23,12 +25,12 @@ public class InvitationService {
 
     public Page<InvitationDto> getSentInvitationsBySenderId(Long id, int pageNum) {
         return invitationRepository.getBySenderId(id, createPageRequest(pageNum))
-              .map(invitationMapper::toInvitationDto);
+                .map(invitationMapper::toInvitationDto);
     }
 
     public Page<InvitationDto> getSentInvitationsByReceiverId(Long id, int pageNum) {
         return invitationRepository.getByReceiverId(id, createPageRequest(pageNum))
-              .map(invitationMapper::toInvitationDto);
+                .map(invitationMapper::toInvitationDto);
     }
 
     public void sendInvitation(InvitationDto invitationDto) {
@@ -40,11 +42,11 @@ public class InvitationService {
 
     public void deleteInvitation(Long id, Long currentUserId) {
         Invitation invitation = invitationRepository.getById(id)
-              .orElseThrow(() -> new IllegalArgumentException(
-                    "Invitation with such id does not exist: " + id));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Invitation with such id does not exist: " + id));
 
         if (!invitation.getSender().getId().equals(currentUserId) || !invitation.getReceiver()
-              .getId().equals(currentUserId)) {
+                .getId().equals(currentUserId)) {
             throw new IllegalArgumentException("You are not allowed to delete this invitation");
         }
         invitationRepository.deleteById(id);
