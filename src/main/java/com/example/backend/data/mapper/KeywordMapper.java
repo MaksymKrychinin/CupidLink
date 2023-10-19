@@ -4,7 +4,7 @@ import com.example.backend.data.dto.KeywordDto;
 import com.example.backend.data.entity.Keyword;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface KeywordMapper {
 
     Keyword toKeyWord(KeywordDto keyWordDto);

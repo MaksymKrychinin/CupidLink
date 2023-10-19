@@ -25,9 +25,9 @@ public class User {
     private SecretInfo secretInfo;
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
-          name = "key_words",
-          joinColumns = @JoinColumn(name = "id"),
-          inverseJoinColumns = @JoinColumn(name = "id")
+          name = "user_keywords",
+          joinColumns = @JoinColumn(name = "keyword_id"),
+          inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Keyword> keywords;
     @ManyToMany(fetch = FetchType.LAZY)

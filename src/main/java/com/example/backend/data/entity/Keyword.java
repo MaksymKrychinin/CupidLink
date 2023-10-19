@@ -21,6 +21,6 @@ public class Keyword {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String value;
-    @ManyToMany(mappedBy = "keyWords")
+    @ManyToMany(mappedBy = "keywords")
     private List<User> users;
 }

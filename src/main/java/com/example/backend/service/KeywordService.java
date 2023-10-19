@@ -2,15 +2,15 @@ package com.example.backend.service;
 
 import com.example.backend.data.dto.KeywordDto;
 import com.example.backend.data.mapper.KeywordMapper;
-import com.example.backend.repository.KeyWordRepository;
+import com.example.backend.repository.KeywordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class KeyWordService {
+public class KeywordService {
 
-    private final KeyWordRepository keyWordRepository;
+    private final KeywordRepository keyWordRepository;
     private final KeywordMapper keywordMapper;
 
     public void createKeyword(KeywordDto keyWordDto) {

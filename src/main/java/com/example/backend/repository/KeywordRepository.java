@@ -5,7 +5,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface KeyWordRepository extends PagingAndSortingRepository<Keyword, Long> {
+public interface KeywordRepository extends PagingAndSortingRepository<Keyword, Long> {
 
     void save(Keyword keyword);
 }
