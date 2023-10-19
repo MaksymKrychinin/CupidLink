@@ -41,7 +41,7 @@ public class InvitationService {
     }
 
     public void deleteInvitation(Long id, Long currentUserId) {
-        Invitation invitation = invitationRepository.getById(id)
+        Invitation invitation = invitationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Invitation with such id does not exist: " + id));
 
