@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class KeyWordDto {
+public class KeywordDto {
     private Long id;
     private String value;
 }

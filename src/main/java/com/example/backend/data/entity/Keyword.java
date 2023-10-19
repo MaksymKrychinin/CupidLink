@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KeyWord {
+public class Keyword {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

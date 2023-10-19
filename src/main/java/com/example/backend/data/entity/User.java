@@ -7,33 +7,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity(name = "users")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    private String username;
+    private String password;
     @OneToOne
     private OpenInfo openInfo;
     @OneToOne
     private SecretInfo secretInfo;
     @ManyToMany
     @JoinTable(
-            name = "key_words",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
+          name = "key_words",
+          joinColumns = @JoinColumn(name = "id"),
+          inverseJoinColumns = @JoinColumn(name = "id")
     )
-    private Set<KeyWord> keyWords;
-    @ManyToMany
+    private Set<Keyword> keywords;
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> friends;
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private Set<Invitation> sentInvitations;
-
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
     private Set<Invitation> receivedInvitations;
 }
