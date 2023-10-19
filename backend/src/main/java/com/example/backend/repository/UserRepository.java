@@ -30,5 +30,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean userWithIdIsFriendOfUserWithId(Long userId, Long friendId);
 
-    void saveAll(List<User> users);
+    @Query("select (count(f) > 0) from friends f where f.users = ?1 and f.friends = ?2")
+    boolean existsById(Long userId, Long friendId);
+
+    @Override
+    <S extends User> List<S> saveAll(Iterable<S> entities);
 }
