@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.data.dto.KeyWordDto;
-import com.example.backend.data.mapper.KeyWordMapper;
+import com.example.backend.data.dto.KeywordDto;
+import com.example.backend.data.mapper.KeywordMapper;
 import com.example.backend.repository.KeyWordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,13 +11,10 @@ import org.springframework.stereotype.Service;
 public class KeyWordService {
 
     private final KeyWordRepository keyWordRepository;
-    private final KeyWordMapper keyWordMapper;
+    private final KeywordMapper keywordMapper;
 
-    public KeyWordDto getKeyWordByValue(String value) {
-        return keyWordRepository.findByValue(value)
-              .map(keyWordMapper::toKeyWordDto)
-              .orElseThrow(() -> new IllegalArgumentException(
-                    "KeyWord with such value does not exist: " + value));
+    public void createKeyword(KeywordDto keyWordDto) {
+        keyWordRepository.save(keywordMapper.toKeyWord(keyWordDto));
     }
 
 }
