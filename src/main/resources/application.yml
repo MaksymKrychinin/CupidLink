@@ -8,8 +8,9 @@ spring:
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: false
     database-platform: org.hibernate.dialect.H2Dialect
+
 page-size-for-invitations: 10
 page-size: 10

@@ -11,7 +11,7 @@ public interface InvitationMapper {
 
     Invitation toInvitation(InvitationDto invitationDto);
 
-    @Mappings({@Mapping(source = "sender", target = "sender"),
-            @Mapping(source = "receiver", target = "receiver")})
+    @Mappings({@Mapping(source = "sender", target = "sender", qualifiedBy = MapUserToUserDto.class),
+            @Mapping(source = "receiver", target = "receiver", qualifiedBy = MapUserToUserDto.class)})
     InvitationDto toInvitationDto(Invitation invitation);
 }
