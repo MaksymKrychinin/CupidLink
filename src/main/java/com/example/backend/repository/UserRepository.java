@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
+    void save(User user);
+
     Optional<User> getById(Long id);
 
     Page<User> getFriendsById(Long id, Pageable pageable);
 
     Page<User> getUsersByKeywordValue(String value, Pageable pageable);
+
+    boolean userWithIdIsFriendOfUserWithId(Long userId, Long friendId);
 }

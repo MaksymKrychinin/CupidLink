@@ -32,7 +32,7 @@ public class InvitationService {
     }
 
     public void sendInvitation(InvitationDto invitationDto) {
-        if (isFriends(invitationDto.getSender().getId(), invitationDto.getReceiver().getId())) {
+        if (userService.isFriends(invitationDto.getSender().getId(), invitationDto.getReceiver().getId())) {
             throw new IllegalArgumentException("Users are already friends");
         }
         invitationRepository.save(invitationMapper.toInvitation(invitationDto));
@@ -50,11 +50,6 @@ public class InvitationService {
         invitationRepository.deleteById(id);
     }
 
-    private boolean isFriends(Long senderId, Long receiverId) {
-        User sender = userService.getUserById(senderId);
-        User receiver = userService.getUserById(receiverId);
-        return sender.getFriends().contains(receiver);
-    }
 
     private PageRequest createPageRequest(int page) {
         Sort sort = Sort.by(Sort.Order.desc("id"));

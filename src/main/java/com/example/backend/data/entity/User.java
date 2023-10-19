@@ -19,11 +19,11 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private OpenInfo openInfo;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private SecretInfo secretInfo;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
           name = "key_words",
           joinColumns = @JoinColumn(name = "id"),

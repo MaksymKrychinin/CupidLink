@@ -18,6 +18,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    public void createUser(UserDto userDto) {
+        userRepository.save(userMapper.toUser(userDto));
+    }
+
     public UserDto getUserById(Long id, Long currentUserId) {
         return userRepository.getById(id)
               .map(user -> retrieveUser(user, currentUserId))
@@ -52,6 +56,9 @@ public class UserService {
     public Page<UserDto> getUsersByKeyword(String keywordValue, int pageNum) {
         return userRepository.getUsersByKeywordValue(keywordValue, createPageRequest(pageNum))
               .map(userMapper::toUserDto);
+    }
+    public boolean isFriends(Long userId, Long friendId){
+        return userRepository.userWithIdIsFriendOfUserWithId(userId, friendId);
     }
 
     private PageRequest createPageRequest(int page) {
