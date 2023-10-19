@@ -25,20 +25,20 @@ public class UserService {
     }
 
     public UserDto getUserById(Long id, Long currentUserId) {
-        return userRepository.getById(id)
+        return userRepository.findById(id)
                 .map(user -> retrieveUser(user, currentUserId))
                 .orElseThrow(() -> new IllegalArgumentException(
                         "User with such id does not exist: " + id));
     }
 
     public User getUserById(Long id) {
-        return userRepository.getById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "User with such id does not exist: " + id));
     }
 
     private UserDto retrieveUser(User user, Long currentUserId) {
-        User currentUser = userRepository.getById(currentUserId)
+        User currentUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "User with such id does not exist: " + currentUserId));
 
@@ -56,7 +56,7 @@ public class UserService {
     }
 
     public Page<UserDto> getUsersByKeyword(String keywordValue, int pageNum) {
-        return userRepository.getUsersByKeywordValue(keywordValue, createPageRequest(pageNum))
+        return userRepository.findUserByKeywordsContains(keywordValue, createPageRequest(pageNum))
                 .map(userMapper::toUserDto);
     }
 

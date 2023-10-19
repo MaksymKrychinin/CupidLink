@@ -4,12 +4,11 @@ import com.example.backend.data.entity.*;
 import com.example.backend.repository.InvitationRepository;
 import com.example.backend.repository.KeywordRepository;
 import com.example.backend.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import com.github.javafaker.Faker;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,18 +17,16 @@ import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
-@RequiredArgsConstructor
 public class BackendApplication {
-    private final UserRepository userRepository;
-    private final InvitationRepository invitationRepository;
-    private final KeywordRepository keywordRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
 
     @Bean
-    CommandLineRunner init() {
+    CommandLineRunner init(UserRepository userRepository,
+                           InvitationRepository invitationRepository,
+                           KeywordRepository keywordRepository) {
         return args -> {
 
             // Ініціалізуємо генератор випадкових даних
