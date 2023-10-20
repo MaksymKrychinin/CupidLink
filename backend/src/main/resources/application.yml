@@ -10,6 +10,9 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: false
-
+springdoc:
+  swagger-ui:
+    url: /v3/api-docs
+    path: /swagger-ui.html
 page-size-for-invitations: 10
 page-size: 10
