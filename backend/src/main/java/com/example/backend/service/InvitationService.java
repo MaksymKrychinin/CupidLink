@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class InvitationService {
 
     @Value("${page-size-for-invitations}")
-    protected static int PAGE_SIZE_FOR_INVITATIONS;
+    protected int PAGE_SIZE_FOR_INVITATIONS;
 
     private final InvitationMapper invitationMapper;
     private final InvitationRepository invitationRepository;
