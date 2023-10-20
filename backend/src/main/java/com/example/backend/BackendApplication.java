@@ -25,7 +25,7 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+   /* @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup(UserRepository userRepository,
                                         InvitationRepository invitationRepository,
                                         KeywordRepository keywordRepository) {
@@ -88,6 +88,6 @@ public class BackendApplication {
         userRepository.saveAll(users);
         keywordRepository.saveAll(keywords);
         invitationRepository.saveAll(invitations);
-    }
+    }*/
 }
 

@@ -17,9 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Override
     @Transactional
-    <S extends User> S save(S entity);
+    User save(User entity);
 
     Optional<User> findUserById(Long id);
 
@@ -28,7 +27,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u.users from key_words u where u.value like concat('%', ?1, '%')")
     Page<User> findUserByKeywordsContains(String value, Pageable pageable);
 
+
+    @Query("select (count(u) > 0) from users u where u.id = ?1 and ?2 in (select f.id from u.friends f)")
     boolean userWithIdIsFriendOfUserWithId(Long userId, Long friendId);
 
-    void saveAll(List<User> users);
+
+    @Override
+    <S extends User> List<S> saveAll(Iterable<S> entities);
 }
