@@ -30,11 +30,6 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Keyword> keywords;
-    @JoinTable(
-            name = "friends",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> friends;
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
