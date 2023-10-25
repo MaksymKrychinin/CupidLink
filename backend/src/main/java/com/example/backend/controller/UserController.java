@@ -32,11 +32,29 @@ public class UserController {
         userService.createUser(userDto);
     }
 
+    @Operation(
+            summary = "Get user by ID",
+            description = "Get user by ID"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters or other bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable Long id, @RequestBody User user) {
         return userService.getUserById(id, user.getId());
     }
 
+    @Operation(
+            summary = "Get user friends by ID",
+            description = "Get user friends by ID"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters or other bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @GetMapping("/{id}/page={pageNum}")
     public Page<UserDto> getFriendsByUserId(
             @PathVariable("id") Long id,
@@ -44,6 +62,15 @@ public class UserController {
         return userService.getFriendsByUserId(id, pageNum);
     }
 
+    @Operation(
+            summary = "Get users by keyword",
+            description = "Get users by keyword"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters or other bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @GetMapping("/{keywordValue}/page={pageNum}")
     public Page<UserDto> getUsersByKeyword(
             @PathVariable String keywordValue,
