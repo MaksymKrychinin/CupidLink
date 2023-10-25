@@ -6,12 +6,10 @@ import com.example.backend.repository.KeywordRepository;
 import com.example.backend.repository.UserRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
 import java.time.LocalDateTime;
@@ -29,7 +27,7 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+/*    @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {
         UserRepository userRepository = context.getBean(UserRepository.class);
         InvitationRepository invitationRepository = context.getBean(InvitationRepository.class);
@@ -96,6 +94,6 @@ public class BackendApplication {
         invitationRepository.saveAll(invitations);
 
         System.out.println("SUCCSESS STARTUP APPLICATION READY EVENT LISTENER");
-    }
+    }*/
 }
 
