@@ -1,3 +1,4 @@
+/*
 package com.example.backend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -84,3 +85,4 @@ public class JmsConfig {
     }
 }
 
+*/
