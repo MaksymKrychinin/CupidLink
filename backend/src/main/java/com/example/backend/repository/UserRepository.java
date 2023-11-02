@@ -28,6 +28,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u.users from key_words u where u.value like concat('%', ?1, '%')")
     Page<User> findUserByKeywordsContains(String value, Pageable pageable);
 
-    boolean userWithIdIsFriendOfUserWithId(Long userId, Long friendId);
-
 }

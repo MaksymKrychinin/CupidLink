@@ -1,6 +1,6 @@
-/*
 package com.example.backend.config;
 
+import com.example.backend.data.dto.InvitationStatisticRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -47,10 +47,10 @@ public class JmsConfig {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.BYTES);
         converter.setObjectMapper(objectMapper());
-        converter.setTypeIdPropertyName("trainerWorkload");
+        converter.setTypeIdPropertyName("invitationStatisticRequest");
         Map<String, Class<?>> typeIdMappings = new HashMap<>();
-        typeIdMappings.put("InvitationStatisticRequest",
-              TrainerWorkloadRequest.class);
+        typeIdMappings.put("invitationStatisticRequest",
+              InvitationStatisticRequest.class);
         converter.setTypeIdMappings(typeIdMappings);
         return converter;
     }
@@ -85,4 +85,3 @@ public class JmsConfig {
     }
 }
 
-*/

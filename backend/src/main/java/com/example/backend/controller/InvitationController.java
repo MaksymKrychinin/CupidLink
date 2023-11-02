@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.*;
 public class InvitationController {
     private final InvitationService invitationService;
 
-    @GetMapping("/{id}/page={pageNum}")
+    @GetMapping("/sent/{id}/page={pageNum}")
     public Page<InvitationDto> getSentInvitationsBySenderId(@PathVariable Long id,@PathVariable int pageNum) {
         return invitationService.getSentInvitationsBySenderId(id, pageNum);
     }
 
-    @GetMapping("/{id}/page={pageNum}")
+    @GetMapping("/received/{id}/page={pageNum}")
     public Page<InvitationDto> getSentInvitationsByReceiverId(@PathVariable("id") Long id, @PathVariable("pageNum") int pageNum) {
         return invitationService.getSentInvitationsByReceiverId(id, pageNum);
     }
 
-    @PostMapping
-    public void sendInvitation(InvitationDto invitationDto) {
+    @PostMapping()
+    public void sendInvitation(@RequestBody InvitationDto invitationDto) {
         invitationService.sendInvitation(invitationDto);
     }
 

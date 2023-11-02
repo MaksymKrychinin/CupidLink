@@ -23,7 +23,7 @@ public class User {
     private OpenInfo openInfo;
     @OneToOne(cascade = CascadeType.ALL)
     private SecretInfo secretInfo;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
           name = "user_keywords",
           joinColumns = @JoinColumn(name = "keyword_id"),
