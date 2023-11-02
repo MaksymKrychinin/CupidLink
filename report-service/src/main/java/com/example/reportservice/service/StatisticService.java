@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class StatisticService {
 
     private final StatisticRepository statisticRepository;
 
+    @Transactional
     public void updateStatistic(InvitationStatisticRequest invitationStatisticRequest) {
         String username = invitationStatisticRequest.getUsername();
         int year = invitationStatisticRequest.getDate().getYear();
