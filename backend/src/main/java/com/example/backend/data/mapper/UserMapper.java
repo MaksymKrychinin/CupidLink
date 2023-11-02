@@ -1,5 +1,6 @@
 package com.example.backend.data.mapper;
 
+import com.example.backend.data.dto.RegisterRequest;
 import com.example.backend.data.dto.UserDto;
 import com.example.backend.data.entity.User;
 import java.util.Set;
@@ -12,6 +13,8 @@ import org.mapstruct.Mappings;
 public interface UserMapper {
 
     User toUser(UserDto userDto);
+
+    User toUserFromRegister(RegisterRequest request);
 
     @MapUserToUserDto
     @Mappings({

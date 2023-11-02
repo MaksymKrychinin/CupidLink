@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvitationStatisticRequest {
-    private Long userId;
+    private String username;
     private LocalDateTime date;
 }

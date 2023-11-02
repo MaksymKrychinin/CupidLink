@@ -12,7 +12,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ValidationUtils {
     private final Validator validator;
-
+//TODO remove
     public <T> void validate(T entity) {
         if (entity != null) {
             Set<ConstraintViolation<T>> validateResult = validator.validate(entity);

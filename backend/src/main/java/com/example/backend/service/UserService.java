@@ -67,6 +67,12 @@ public class UserService {
               .orElseThrow(() -> new IllegalArgumentException(
                     "User with such id does not exist: " + userId));
     }
+    public Long getUserIdByUsername(String username) {
+        return userRepository.findUserByUsername(username)
+              .map(User::getId)
+              .orElseThrow(() -> new IllegalArgumentException(
+                    "User with such username does not exist: " + username));
+    }
 
     private PageRequest createPageRequest(int page) {
         return PageRequest.of(page - 1, PAGE_SIZE);

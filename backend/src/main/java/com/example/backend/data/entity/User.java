@@ -2,6 +2,7 @@ package com.example.backend.data.entity;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
 
@@ -30,17 +31,17 @@ public class User implements UserDetails {
     private SecretInfo secretInfo;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "user_keywords",
-            joinColumns = @JoinColumn(name = "keyword_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+          name = "user_keywords",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "keyword_id")
     )
     private Set<Keyword> keywords;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private Set<User> friends;
-    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+/*    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Invitation> sentInvitations;
-    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
-    private Set<Invitation> receivedInvitations;
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Invitation> receivedInvitations;*/
 
 
     @Override
