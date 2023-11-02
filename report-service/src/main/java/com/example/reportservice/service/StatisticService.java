@@ -17,13 +17,13 @@ public class StatisticService {
     private final StatisticRepository statisticRepository;
 
     public void updateStatistic(InvitationStatisticRequest invitationStatisticRequest) {
-        Long userId = invitationStatisticRequest.getUserId();
+        String username = invitationStatisticRequest.getUsername();
         int year = invitationStatisticRequest.getDate().getYear();
         Month month = invitationStatisticRequest.getDate().getMonth();
 
-        Statistic statistic = statisticRepository.findByUserId(userId)
+        Statistic statistic = statisticRepository.findByUsername(username)
               .orElse(Statistic.builder()
-                    .userId(userId)
+                    .username(username)
                     .yearMonthStatistic(new HashMap<>())
                     .build());
 
@@ -34,9 +34,9 @@ public class StatisticService {
         statisticRepository.save(statistic);
     }
 
-    public Statistic getStatisticByUserId(Long userId) {
-        return statisticRepository.findByUserId(userId)
+    public Statistic getStatisticByUsername(String username) {
+        return statisticRepository.findByUsername(username)
               .orElseThrow(() -> new UserNotFoundException(
-                    "Statistic for user with id " + userId + " not found"));
+                    "Statistic for user with username: " + username + " not found"));
     }
 }
