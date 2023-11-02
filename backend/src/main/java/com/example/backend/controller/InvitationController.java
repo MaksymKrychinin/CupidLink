@@ -95,6 +95,6 @@ public class InvitationController {
     @PutMapping("/{invitationId}")
     public void acceptInvitation(@PathVariable Long invitationId,
           @AuthenticationPrincipal UserDetails userDetails) {
-        invitationService.acceptInvitation(invitationId, userDetails);
+        invitationService.acceptInvitation(invitationId, userDetails.getUsername());
     }
 }

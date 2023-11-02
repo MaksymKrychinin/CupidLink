@@ -56,22 +56,22 @@ public class InvitationService {
     }
 
     @Transactional
-    public void acceptInvitation(Long id, UserDetails userDetails) {
-        Invitation invitation = invitationRepository.findById(id)
-              .orElseThrow(() -> new IllegalArgumentException(
-                    "Invitation with such id does not exist: " + id));
+    public void acceptInvitation(Long id, String username) {
+        Invitation invitation = invitationRepository.getById(id);
+        String receiverUsername = invitation.getReceiver().getUsername();
 
-        if (!invitation.getReceiver().getUsername().equals(userDetails.getUsername())) {
+        if (!receiverUsername.equals(username)) {
             throw new IllegalArgumentException("You are not allowed to accept this invitation");
         }
 
         User sender = userService.getUserById(invitation.getSender().getId());
         User receiver = userService.getUserById(invitation.getReceiver().getId());
 
-        invitationRepository.deleteById(id);
+        /*invitationRepository.deleteById(id);
 
         sender.getFriends().add(receiver);
-        receiver.getFriends().add(sender);
+        receiver.getFriends().add(sender);*/
+        System.out.println("UDHFUDHFUHDF");
 
     }
 

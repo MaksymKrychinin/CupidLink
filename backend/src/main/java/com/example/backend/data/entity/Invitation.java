@@ -27,4 +27,15 @@ public class Invitation {
     private User receiver;
     private String message;
     private LocalDateTime sentDateTime;
+
+    @Override
+    public String toString() {
+        return "Invitation{" +
+              "id=" + id +
+              ", sender=" + sender +
+              ", receiver=" + receiver +
+              ", message='" + message + '\'' +
+              ", sentDateTime=" + sentDateTime +
+              '}';
+    }
 }
