@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Value("${page-size}")
-    protected static int PAGE_SIZE = 10;
+    protected int PAGE_SIZE;
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -44,9 +44,9 @@ public class UserService {
 
         if (user.getFriends().contains(currentUser)) {
             return userMapper.toUserDtoWithSecretInfo(user);
-        } else {
-            return userMapper.toUserDto(user);
         }
+        return userMapper.toUserDto(user);
+
     }
 
     public Page<UserDto> getFriendsByUserId(Long id, int pageNum) {
@@ -69,7 +69,7 @@ public class UserService {
     }
 
     private PageRequest createPageRequest(int page) {
-        return PageRequest.of(page - 1, UserService.PAGE_SIZE);
+        return PageRequest.of(page - 1, PAGE_SIZE);
     }
 
 }
