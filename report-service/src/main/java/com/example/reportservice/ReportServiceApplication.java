@@ -1,15 +1,13 @@
-package com.example.backend;
+package com.example.reportservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendApplication {
-    @Autowired
-    private ApplicationContext context;
+public class ReportServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackendApplication.class, args);
+        SpringApplication.run(ReportServiceApplication.class, args);
     }
-}
 
+}

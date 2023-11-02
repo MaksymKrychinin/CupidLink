@@ -6,15 +6,19 @@ import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class InvitationDto {
 
     private Long id;
-    @JsonIgnore
+    /*@JsonIgnore*/
     private UserDto sender;
     private UserDto receiver;
     private String message;

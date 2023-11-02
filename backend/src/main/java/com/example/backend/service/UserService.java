@@ -26,21 +26,21 @@ public class UserService {
 
     public UserDto getUserById(Long id, Long currentUserId) {
         return userRepository.findById(id)
-                .map(user -> retrieveUser(user, currentUserId))
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "User with such id does not exist: " + id));
+              .map(user -> retrieveUser(user, currentUserId))
+              .orElseThrow(() -> new IllegalArgumentException(
+                    "User with such id does not exist: " + id));
     }
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "User with such id does not exist: " + id));
+              .orElseThrow(() -> new IllegalArgumentException(
+                    "User with such id does not exist: " + id));
     }
 
     private UserDto retrieveUser(User user, Long currentUserId) {
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "User with such id does not exist: " + currentUserId));
+              .orElseThrow(() -> new IllegalArgumentException(
+                    "User with such id does not exist: " + currentUserId));
 
         if (user.getFriends().contains(currentUser)) {
             return userMapper.toUserDtoWithSecretInfo(user);
@@ -51,17 +51,21 @@ public class UserService {
 
     public Page<UserDto> getFriendsByUserId(Long id, int pageNum) {
         return userRepository.getFriendsById(id, createPageRequest(pageNum))
-                .map(userMapper::toUserDto);
+              .map(userMapper::toUserDto);
 
     }
 
     public Page<UserDto> getUsersByKeyword(String keywordValue, int pageNum) {
         return userRepository.findUserByKeywordsContains(keywordValue, createPageRequest(pageNum))
-                .map(userMapper::toUserDto);
+              .map(userMapper::toUserDto);
     }
 
     public boolean isFriends(Long userId, Long friendId) {
-        return userRepository.userWithIdIsFriendOfUserWithId(userId, friendId);
+        return userRepository.findUserById(userId)
+              .map(user -> user.getFriends().stream()
+                    .anyMatch(friend -> friend.getId().equals(friendId)))
+              .orElseThrow(() -> new IllegalArgumentException(
+                    "User with such id does not exist: " + userId));
     }
 
     private PageRequest createPageRequest(int page) {
