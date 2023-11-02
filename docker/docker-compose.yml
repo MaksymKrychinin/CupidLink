@@ -2,10 +2,23 @@ version: '3.9'
 name: cupid-link
 services:
   postgres-db:
-    container_name: postgres-db
     image: postgres:latest
     environment:
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: root
     ports:
-      - '5432:5432'
+      - '5433:5432'
+  activemq:
+    image: symptoma/activemq:latest
+    ports:
+      - "61616:61616"    
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+  mongo-db:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: statistics
+    ports:
+      - '27017:27017'
+
