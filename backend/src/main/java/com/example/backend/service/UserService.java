@@ -70,8 +70,8 @@ public class UserService {
 
     }
 
-    public Page<UserDto> getFriendsByUserId(Long id, int pageNum) {
-        return userRepository.getFriendsById(id, createPageRequest(pageNum))
+    public Page<UserDto> getFriendsByUserId(String username, int pageNum) {
+        return userRepository.getFriendsByUsername(username, createPageRequest(pageNum))
               .map(userMapper::toUserDto);
 
     }

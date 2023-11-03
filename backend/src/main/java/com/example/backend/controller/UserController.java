@@ -43,10 +43,9 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/friends/{id}/page={pageNum}")
-    public Page<UserDto> getFriendsByUserId(
-            @PathVariable("id") Long id,
-            @PathVariable("pageNum") int pageNum) {
-        return userService.getFriendsByUserId(id, pageNum);
+    public Page<UserDto> getFriendsByUserId(@PathVariable("pageNum") int pageNum,
+          @AuthenticationPrincipal UserDetails userDetails) {
+        return userService.getFriendsByUserId(userDetails.getUsername(), pageNum);
     }
 
     @Operation(

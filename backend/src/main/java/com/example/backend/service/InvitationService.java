@@ -30,13 +30,13 @@ public class InvitationService {
     private final UserService userService;
     private final JmsService jmsService;
 
-    public Page<InvitationDto> getSentInvitationsBySenderId(Long id, int pageNum) {
-        return invitationRepository.getBySenderId(id, createPageRequest(pageNum))
+    public Page<InvitationDto> getSentInvitationsBySenderUsername(String username, int pageNum) {
+        return invitationRepository.getBySenderUsername(username, createPageRequest(pageNum))
               .map(invitationMapper::toInvitationDto);
     }
 
-    public Page<InvitationDto> getSentInvitationsByReceiverId(Long id, int pageNum) {
-        return invitationRepository.getByReceiverId(id, createPageRequest(pageNum))
+    public Page<InvitationDto> getSentInvitationsByReceiverUsername(String username, int pageNum) {
+        return invitationRepository.getByReceiverUsername(username, createPageRequest(pageNum))
               .map(invitationMapper::toInvitationDto);
     }
 
@@ -85,13 +85,13 @@ public class InvitationService {
 
     }
 
-    public void deleteInvitation(Long id, Long currentUserId) {
+    public void deleteInvitation(Long id, String currentUsername) {
         Invitation invitation = invitationRepository.findById(id)
               .orElseThrow(() -> new InvitationProcessingException(
                     "Invitation with such id does not exist: " + id));
 
-        if (!invitation.getSender().getId().equals(currentUserId) && !invitation.getReceiver()
-              .getId().equals(currentUserId)) {
+        if (!invitation.getSender().getUsername().equals(currentUsername) && !invitation.getReceiver()
+              .getUsername().equals(currentUsername)) {
             throw new InvitationProcessingException(
                   "You are not allowed to delete this invitation");
         }

@@ -1,11 +1,13 @@
 package com.example.backend.controller;
 
 import com.example.backend.data.dto.InvitationDto;
+import com.example.backend.data.entity.User;
 import com.example.backend.service.InvitationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.control.MappingControl.Use;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,10 +40,9 @@ public class InvitationController {
           @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/bySender/{id}/page={pageNum}")
-    public Page<InvitationDto> getSentInvitationsBySenderId(
-          @PathVariable Long id,
-          @PathVariable Integer pageNum) {
-        return invitationService.getSentInvitationsBySenderId(id, pageNum);
+    public Page<InvitationDto> getSentInvitationsBySenderId(@PathVariable Integer pageNum,
+          @AuthenticationPrincipal UserDetails userDetails) {
+        return invitationService.getSentInvitationsBySenderUsername(userDetails.getUsername(), pageNum);
     }
 
     @Operation(
@@ -56,9 +57,9 @@ public class InvitationController {
     })
     @GetMapping("/byReceiver/{id}/page={pageNum}")
     public Page<InvitationDto> getSentInvitationsByReceiverId(
-          @PathVariable("id") Long id,
-          @PathVariable("pageNum") Integer pageNum) {
-        return invitationService.getSentInvitationsByReceiverId(id, pageNum);
+          @PathVariable("pageNum") Integer pageNum,
+          @AuthenticationPrincipal UserDetails userDetails) {
+        return invitationService.getSentInvitationsByReceiverUsername(userDetails.getUsername(), pageNum);
     }
 
     @Operation(
@@ -88,8 +89,9 @@ public class InvitationController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteInvitation(@PathVariable Long id, Long currentUserId) {
-        invitationService.deleteInvitation(id, currentUserId);
+    public void deleteInvitation(@PathVariable Long id,
+          @AuthenticationPrincipal UserDetails userDetails) {
+        invitationService.deleteInvitation(id, userDetails.getUsername());
     }
 
     @PutMapping("/{invitationId}")

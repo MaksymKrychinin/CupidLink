@@ -13,11 +13,11 @@ import java.util.Optional;
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
-    Page<Invitation> getBySenderId(Long id, Pageable pageable);
+    Page<Invitation> getBySenderUsername(String username, Pageable pageable);
 
     List<Invitation> getBySenderId(Long id);
 
-    Page<Invitation> getByReceiverId(Long id, Pageable pageable);
+    Page<Invitation> getByReceiverUsername(String username, Pageable pageable);
 
     List<Invitation> getByReceiverId(Long id);
     Optional<Invitation>getBySenderIdAndReceiverId(Long senderId, Long receiverId);
