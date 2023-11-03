@@ -3,12 +3,10 @@ package com.example.backend.service;
 
 import com.example.backend.data.dto.AuthenticationRequest;
 import com.example.backend.data.dto.AuthenticationResponse;
-import com.example.backend.data.dto.RegisterRequest;
 import com.example.backend.data.dto.UserDto;
 import com.example.backend.data.entity.User;
 import com.example.backend.data.exception.FailedToAccessException;
 import com.example.backend.data.mapper.UserMapper;
-import com.example.backend.data.mapper.UserMapperRegisterRequest;
 import com.example.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

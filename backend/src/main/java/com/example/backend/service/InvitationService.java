@@ -9,7 +9,6 @@ import com.example.backend.data.exception.InvitationProcessingException;
 import com.example.backend.data.mapper.InvitationMapper;
 import com.example.backend.repository.InvitationRepository;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
