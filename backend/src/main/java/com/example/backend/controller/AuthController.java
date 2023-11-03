@@ -3,7 +3,6 @@ package com.example.backend.controller;
 
 import com.example.backend.data.dto.AuthenticationRequest;
 import com.example.backend.data.dto.AuthenticationResponse;
-import com.example.backend.data.dto.RegisterRequest;
 import com.example.backend.data.dto.UserDto;
 import com.example.backend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +12,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @CrossOrigin

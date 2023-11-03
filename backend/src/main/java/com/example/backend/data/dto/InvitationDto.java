@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class InvitationDto {
 
     private Long id;
-    /*@JsonIgnore*/
+    @JsonIgnore
     private UserDto sender;
     private UserDto receiver;
     private String message;
