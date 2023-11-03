@@ -1,14 +1,18 @@
 package com.example.backend.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,30 +21,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"friends"})
+@EqualsAndHashCode(exclude = {"friends"})
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(name = "username", unique = true)
     private String username;
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OpenInfo openInfo;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private SecretInfo secretInfo;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_keywords",
-            joinColumns = @JoinColumn(name = "keyword_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+          name = "user_keywords",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "keyword_id")
     )
     private Set<Keyword> keywords;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> friends;
-    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
-    private Set<Invitation> sentInvitations;
-    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
-    private Set<Invitation> receivedInvitations;
 
 
     @Override

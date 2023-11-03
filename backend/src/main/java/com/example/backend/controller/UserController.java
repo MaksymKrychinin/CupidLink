@@ -1,36 +1,27 @@
 package com.example.backend.controller;
 
 import com.example.backend.data.dto.UserDto;
-import com.example.backend.data.entity.User;
 import com.example.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
     private final UserService userService;
-
-    @Operation(
-            summary = "Create user",
-            description = "Create user with given userDto"
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters or other bad request"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
-    })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/")
-    public void createUser(@RequestBody UserDto userDto) {
-        userService.createUser(userDto);
-    }
 
     @Operation(
             summary = "Get user by ID",
@@ -42,24 +33,23 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable Long id, @RequestBody User user) {
-        return userService.getUserById(id, user.getId());
+    public UserDto getUserById(@Parameter(description = "User id", required = true) @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return userService.getUserById(id, userDetails.getUsername());
     }
 
     @Operation(
-            summary = "Get user friends by ID",
-            description = "Get user friends by ID"
+            summary = "Get user friends",
+            description = "Get user friends"
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "400", description = "Invalid parameters or other bad request"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @GetMapping("/{id}/page={pageNum}")
-    public Page<UserDto> getFriendsByUserId(
-            @PathVariable("id") Long id,
-            @PathVariable("pageNum") Integer pageNum) {
-        return userService.getFriendsByUserId(id, pageNum);
+    @GetMapping("/friends/page={pageNum}")
+    public Page<UserDto> getFriendsByUser(@PathVariable("pageNum") int pageNum,
+          @AuthenticationPrincipal UserDetails userDetails) {
+        return userService.getFriendsByUserId(userDetails.getUsername(), pageNum);
     }
 
     @Operation(
@@ -74,7 +64,7 @@ public class UserController {
     @GetMapping("/{keywordValue}/page={pageNum}")
     public Page<UserDto> getUsersByKeyword(
             @PathVariable String keywordValue,
-            @PathVariable Integer pageNum) {
+            @PathVariable int pageNum) {
         return userService.getUsersByKeyword(keywordValue, pageNum);
     }
 }

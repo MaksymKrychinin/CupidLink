@@ -10,12 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity(name = "invitations")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"sender","receiver"})
 public class Invitation {
 
     @Id
@@ -27,4 +29,5 @@ public class Invitation {
     private User receiver;
     private String message;
     private LocalDateTime sentDateTime;
+
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StatisticRepository extends MongoRepository<Statistic, String> {
 
-    Optional<Statistic> findByUserId(Long userId);
+    Optional<Statistic> findByUsername(String username);
 
     @Override
     Statistic save(Statistic statistic);

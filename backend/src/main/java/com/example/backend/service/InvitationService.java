@@ -2,16 +2,20 @@ package com.example.backend.service;
 
 import com.example.backend.data.dto.InvitationDto;
 import com.example.backend.data.dto.InvitationStatisticRequest;
+import com.example.backend.data.dto.UserDto;
 import com.example.backend.data.entity.Invitation;
 import com.example.backend.data.entity.User;
+import com.example.backend.data.exception.InvitationProcessingException;
 import com.example.backend.data.mapper.InvitationMapper;
 import com.example.backend.repository.InvitationRepository;
-import java.time.LocalDateTime;
+import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,34 +30,70 @@ public class InvitationService {
     private final UserService userService;
     private final JmsService jmsService;
 
-    public Page<InvitationDto> getSentInvitationsBySenderId(Long id, int pageNum) {
-        return invitationRepository.getBySenderId(id, createPageRequest(pageNum))
+    public Page<InvitationDto> getSentInvitationsBySenderUsername(String username, int pageNum) {
+        return invitationRepository.getBySenderUsername(username, createPageRequest(pageNum))
               .map(invitationMapper::toInvitationDto);
     }
 
-    public Page<InvitationDto> getSentInvitationsByReceiverId(Long id, int pageNum) {
-        return invitationRepository.getByReceiverId(id, createPageRequest(pageNum))
+    public Page<InvitationDto> getSentInvitationsByReceiverUsername(String username, int pageNum) {
+        return invitationRepository.getByReceiverUsername(username, createPageRequest(pageNum))
               .map(invitationMapper::toInvitationDto);
     }
 
-    public void sendInvitation(InvitationDto invitationDto) {
-        if (userService.isFriends(invitationDto.getSender().getId(),
-              invitationDto.getReceiver().getId())) {
-            throw new IllegalArgumentException("Users are already friends");
+    @Transactional
+    public void sendInvitation(InvitationDto invitationDto, UserDetails userDetails) {
+        Long currentUserId = userService.getUserIdByUsername(userDetails.getUsername());
+        if (userService.isFriends(currentUserId, invitationDto.getReceiver().getId())) {
+            throw new InvitationProcessingException("Users are already friends");
         }
-        jmsService.sendToQueue(new InvitationStatisticRequest(invitationDto.getReceiver().getId(),
-              invitationDto.getSentDateTime()));
+        if (invitationRepository.getBySenderId(currentUserId).stream()
+              .anyMatch(invitation -> invitation.getReceiver().getId()
+                    .equals(invitationDto.getReceiver().getId()))) {
+            throw new InvitationProcessingException("Invitation has already been sent");
+        }
+        if (invitationRepository.getByReceiverId(currentUserId).stream()
+              .anyMatch(invitation -> invitation.getSender().getId()
+                    .equals(invitationDto.getReceiver().getId()))) {
+            throw new InvitationProcessingException("Invitation has already been sent");
+        }
+        invitationDto.setSender(new UserDto().builder().id(currentUserId).build());
         invitationRepository.save(invitationMapper.toInvitation(invitationDto));
+
+        String receiverUsername = userService.getUserById(invitationDto.getReceiver().getId())
+              .getUsername();
+        jmsService.sendToQueue(new InvitationStatisticRequest(receiverUsername,
+              invitationDto.getSentDateTime()));
     }
 
-    public void deleteInvitation(Long id, Long currentUserId) {
+    @Transactional
+    public void acceptInvitation(Long id, String username) {
+        Invitation invitation = invitationRepository.getById(id);
+        String receiverUsername = invitation.getReceiver().getUsername();
+
+        if (!receiverUsername.equals(username)) {
+            throw new InvitationProcessingException(
+                  "You are not allowed to accept this invitation");
+        }
+
+        User sender = userService.getUserById(invitation.getSender().getId());
+        User receiver = userService.getUserById(invitation.getReceiver().getId());
+
+        invitationRepository.deleteById(id);
+
+        sender.getFriends().add(receiver);
+        receiver.getFriends().add(sender);
+
+    }
+
+    public void deleteInvitation(Long id, String currentUsername) {
         Invitation invitation = invitationRepository.findById(id)
-              .orElseThrow(() -> new IllegalArgumentException(
+              .orElseThrow(() -> new InvitationProcessingException(
                     "Invitation with such id does not exist: " + id));
 
-        if (!invitation.getSender().getId().equals(currentUserId) || !invitation.getReceiver()
-              .getId().equals(currentUserId)) {
-            throw new IllegalArgumentException("You are not allowed to delete this invitation");
+        if (!invitation.getSender().getUsername().equals(currentUsername) && !invitation.getReceiver()
+              .getUsername().equals(currentUsername)) {
+            throw new InvitationProcessingException(
+                  "You are not allowed to delete this invitation");
         }
         invitationRepository.deleteById(id);
     }

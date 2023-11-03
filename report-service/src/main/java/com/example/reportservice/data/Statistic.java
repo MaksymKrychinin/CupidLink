@@ -15,7 +15,7 @@ public class Statistic {
     @Id
     private String id;
     @Indexed(unique = true)
-    private Long userId;
+    private String username;
     private Map<Integer, Map<Month, Integer>> yearMonthStatistic;
 
 }

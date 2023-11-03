@@ -23,17 +23,17 @@ public class StatisticController {
 
     @Operation(
           summary = "Get statistic",
-          description = "Get statistic for user with id"
+          description = "Get statistic for user with username"
     )
     @ApiResponses({
           @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
           @ApiResponse(responseCode = "400", description = "Invalid parameters or other bad request"),
           @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @GetMapping("/{userId}")
-    public Statistic getStatisticByUserId(
-          @Parameter(description = "User's id", required = true) @PathVariable Long userId) {
-        log.info("Get statistic by user id {}", userId);
-        return statisticService.getStatisticByUserId(userId);
+    @GetMapping("/{username}")
+    public Statistic getStatisticByUsername(
+          @Parameter(description = "User's username", required = true) @PathVariable String username) {
+        log.info("Get statistic by user username {}", username);
+        return statisticService.getStatisticByUsername(username);
     }
 }

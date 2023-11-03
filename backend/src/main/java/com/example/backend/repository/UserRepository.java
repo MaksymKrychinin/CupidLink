@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -27,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserById(Long id);
 
-    Page<User> getFriendsById(Long id, Pageable pageable);
+    Page<User> getFriendsByUsername(String username, Pageable pageable);
 
     @Query("select u.users from key_words u where u.value like concat('%', ?1, '%')")
     Page<User> findUserByKeywordsContains(String value, Pageable pageable);
@@ -35,7 +36,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select (count(u) > 0) from users u where u.id = ?1 and ?2 in (select f.id from u.friends f)")
     boolean userWithIdIsFriendOfUserWithId(Long userId, Long friendId);
 
-
+    /*@Modifying
+    @Query("insert into ")
+    public void addUser()*/
     @Override
     <S extends User> List<S> saveAll(Iterable<S> entities);
 }
