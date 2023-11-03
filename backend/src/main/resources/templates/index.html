@@ -6,6 +6,22 @@
 </head>
 <body>
 <h1>Students</h1>
-<p ></p>
+<div>
+    <td th:switch="${#lists.size(students)}">
+        <span th:case="'0'">NO STUDENTS!</span>
+        <span th:case="'1'" th:text="${students[0].name}"></span>
+        <div th:case="*">
+            <div th:each="student: ${students}">
+                <div th:if="${student!=null}">
+                    <p th:text="${student.id<=3}?${student.name}:'Student '+${student.name} + ' id>3'"/>
+                </div>
+                <div th:unless="${student!=null}">
+                    <p>Secret(Null) student found - data null</p>
+                </div>
+            </div>
+        </div>
+    </td>
+
+</div>
 </body>
 </html>
