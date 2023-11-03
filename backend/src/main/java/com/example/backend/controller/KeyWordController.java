@@ -27,6 +27,6 @@ public class KeyWordController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("")
     public void createKeyword(@RequestBody KeywordDto keyWordDto) {
-        keyWordService.createKeyword(keyWordDto);
+        /*keyWordService.createKeyword(keyWordDto);*/
     }
 }

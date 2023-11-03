@@ -10,7 +10,9 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,11 +21,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"friends"})
+@EqualsAndHashCode(exclude = {"friends"})
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(name = "username", unique = true)
     private String username;
     private String password;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -40,10 +45,6 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> friends;
-/*    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Invitation> sentInvitations;
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Invitation> receivedInvitations;*/
 
 
     @Override

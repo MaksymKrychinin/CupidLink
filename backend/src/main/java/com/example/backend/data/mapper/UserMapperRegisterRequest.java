@@ -24,8 +24,6 @@ public class UserMapperRegisterRequest implements Function<RegisterRequest, User
               .password(passwordEncoder.encode(request.getPassword()))
               .openInfo(request.getOpenInfo())
               .secretInfo(request.getSecretInfo())
-              .keywords(new HashSet<>())
-              .friends(new HashSet<>())
               .build();
     }
 }

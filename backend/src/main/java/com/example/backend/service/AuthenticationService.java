@@ -24,10 +24,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final ValidationUtils validationUtils;
+    private final UserService userService;
 
     public AuthenticationResponse register(UserDto userDto) {
         User user = userMapper.toUser(userDto);
-        userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.createUser(user);
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
               .token(jwtToken)

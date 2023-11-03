@@ -19,9 +19,8 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
     Page<Invitation> getByReceiverId(Long id, Pageable pageable);
 
-    @Query("select inv.receiverId from Invitation inv where inv.id=?")
-    Long getReceiverId(Long id);
-
+    List<Invitation> getByReceiverId(Long id);
+    Optional<Invitation>getBySenderIdAndReceiverId(Long senderId, Long receiverId);
 
     Invitation getById(Long id);
 
